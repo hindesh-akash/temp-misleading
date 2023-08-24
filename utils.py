@@ -1,6 +1,5 @@
 #----------------- IMPORTS -----------------+
 import streamlit as st
-from apikey import apikey
 from prompts import *
 import time
 
