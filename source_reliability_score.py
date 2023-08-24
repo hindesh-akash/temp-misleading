@@ -6,12 +6,16 @@ import datetime
 from streamlit_elements import elements, mui
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
 
 
 
 #---------------- Authenticate with Google Sheets API ---------------------------------+
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-credentials = ServiceAccountCredentials.from_json_keyfile_name(".streamlit/credentials.json", scope)
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=scope,
+)
 client = gspread.authorize(credentials)
 # st.success("connection done")
 
@@ -55,7 +59,7 @@ def add_details_source(source_name,source_type,response):
 
     
 
-
+@st.cache_data()
 def update_scores():
     df = load_data(st.secrets["public_gsheets_url"])
     mean_scores = df.groupby('source_name')['score'].sum().reset_index()
