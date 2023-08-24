@@ -14,11 +14,16 @@ with st.columns(3)[1]:
 
 st.markdown("<h2 style='text-align: center; color: black;'>Welcome to Smart with SEBI portal<hr></h1>", unsafe_allow_html=True)
 
+# Display the input field in the sidebar only if API key is not set
 with st.sidebar:
-    user_api_key = st.text_area("Enter your APU Key here: ")
-    if st.button("Submit") and user_api_key:
-        set_api_key(user_api_key)
-        st.success("API Key set successfully!")
+    if not st.session_state.api_key:
+        user_api_key = st.text_area("Enter your API Key here:")
+        if st.button("Submit") and user_api_key:
+            set_api_key(user_api_key)
+            st.success("API Key set successfully!")
+            st.session_state.api_key = user_api_key
+    else:
+        st.write(f"Your API key is: {st.session_state.api_key}")
 
 st.markdown("<h3 style='text-align: left; color: black;'><hr> About this project:</h3>", unsafe_allow_html=True)
 
