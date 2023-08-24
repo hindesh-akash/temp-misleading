@@ -18,6 +18,12 @@ with st.columns(3)[1]:
 
 st.markdown("<h2 style='text-align: center; color: black;'> USER PORTAL<hr></h2>", unsafe_allow_html=True)
 
+with st.sidebar:
+    if "api_token" not in st.session_state:
+        st.error("Set the API key first!")
+    else:
+        st.success("API Key already set!")
+    st.markdown("**Select a page above!**")
 
 # --- OPTION MENU --------------------------------------+
 selected = option_menu(
