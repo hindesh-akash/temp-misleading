@@ -1,5 +1,6 @@
 #----------------- IMPORTS -----------------+
 import streamlit as st
+from apikey import apikey
 from prompts import *
 import time
 
@@ -17,19 +18,15 @@ import pytesseract
 from PIL import Image
  
 #--- SET API KEYS AND ENVIRONMENT VARIABLES ------------+
-# st.set_page_config(
-#     page_title="Smart With Sebi - USER",
-#     page_icon=":detective:",
-#     layout="wide",
-# )
 
-if "api_key" not in st.session_state:
-    st.session_state.api_key = ""
 
 def set_api_key(api_token):
     os.environ["OPENAI_API_KEY"] = api_token
     openai.api_key = api_token
-    st.session_state.api_key = api_token
+    return api_token
+
+
+
 
 # ------ Function to transcribe audio -----------------+
 def transcribe_audio(audio_file):
@@ -103,7 +100,6 @@ def display_articles(financial_points):
 
 # ------ Display SEBI Rules -----------------+
 def display_sebi_rules(financial_points):
-    time.sleep(21)
     #Extract strictly financial terms
     financial_points= re.sub(r'[^a-zA-Z, ]', '', financial_points)
     llm = OpenAI(temperature=0.9)
@@ -112,7 +108,6 @@ def display_sebi_rules(financial_points):
     # st.write(f"length: {len(financial_points.split(','))}")
     for point in financial_points.split(","):
         time.sleep(21)
-        
         st.markdown("<hr>", unsafe_allow_html=True)
         st.write(f"**SEBI rules for {point.upper()}:**")
         fin_rules =  llm(point + sebi_rules_prompt)
