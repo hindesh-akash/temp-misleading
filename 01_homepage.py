@@ -12,21 +12,21 @@ st.set_page_config(
 with st.columns(3)[1]:
     st.image("media/smart_with_sebi.jpeg", width=200)
 
-st.markdown("<h2 style='text-align: center; color: black;'>Welcome to Smart with SEBI portal<hr></h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: black;'>Welcome to Smart with SEBI portal</h1>", unsafe_allow_html=True)
 
-# Display the input field in the sidebar only if API key is not set
 with st.sidebar:
-    if not st.session_state.api_key:
-        user_api_key = st.text_area("Enter your API Key here:")
+    if "api_token" not in st.session_state:
+        user_api_key = st.text_area("Enter your API Key here: ")
         if st.button("Submit") and user_api_key:
-            set_api_key(user_api_key)
+            st.session_state.api_token = set_api_key(user_api_key)
             st.success("API Key set successfully!")
-            st.session_state.api_key = user_api_key
     else:
-        st.write(f"Your API key is: {st.session_state.api_key}")
+        st.success("API Key already set!")
+
+    st.markdown("**Select a page above!**")
 
 st.markdown("<h3 style='text-align: left; color: black;'><hr> About this project:</h3>", unsafe_allow_html=True)
 
-st.sidebar.success("Select a page above!")
+
 
 st_player("https://www.youtube.com/watch?v=jNVTSDwTm14")
