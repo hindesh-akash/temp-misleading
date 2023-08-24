@@ -23,12 +23,13 @@ from PIL import Image
 #     layout="wide",
 # )
 
+if "api_key" not in st.session_state:
+    st.session_state.api_key = ""
+
 def set_api_key(api_token):
     os.environ["OPENAI_API_KEY"] = api_token
     openai.api_key = api_token
-
-
-
+    st.session_state.api_key = api_token
 
 # ------ Function to transcribe audio -----------------+
 def transcribe_audio(audio_file):
